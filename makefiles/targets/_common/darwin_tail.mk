@@ -32,7 +32,7 @@ else
 endif
 
 _THEOS_TARGET_CFLAGS := -isysroot "$(ISYSROOT)" $(VERSIONFLAGS) $(_THEOS_TARGET_CC_CFLAGS)
-ifeq ($(THEOS_CURRENT _ARCH),arm64e)
+ifeq ($(THEOS_CURRENT_ARCH),arm64e)
 _THEOS_TARGET_CFLAGS += -fno-ptrauth-abi-version
 endif
 _THEOS_TARGET_CCFLAGS := $(_TARGET_LIBCPP_CCFLAGS)
