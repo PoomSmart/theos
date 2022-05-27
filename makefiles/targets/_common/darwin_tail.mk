@@ -32,8 +32,14 @@ else
 endif
 
 _THEOS_TARGET_CFLAGS := -isysroot "$(ISYSROOT)" $(VERSIONFLAGS) $(_THEOS_TARGET_CC_CFLAGS)
+ifeq ($(THEOS_CURRENT _ARCH),arm64e)
+_THEOS_TARGET_CFLAGS += -fno-ptrauth-abi-version
+endif
 _THEOS_TARGET_CCFLAGS := $(_TARGET_LIBCPP_CCFLAGS)
 _THEOS_TARGET_LDFLAGS := -isysroot "$(SYSROOT)" $(VERSIONFLAGS) $(LEGACYFLAGS) -multiply_defined suppress $(_TARGET_LIBCPP_LDFLAGS) $(_TARGET_LIBSWIFT_LDFLAGS)
+ifeq ($(THEOS_CURRENT_ARCH),arm64e)
+_THEOS_TARGET_LDFLAGS += -Xlinker -ios_version_min -Xlinker 6.0 # anything between 5.0 (inclusive) to 14.0 (exclusive)
+endif
 
 _THEOS_TARGET_SWIFTFLAGS := -sdk "$(SYSROOT)" $(_THEOS_TARGET_CC_SWIFTFLAGS)
 _THEOS_TARGET_SWIFT_LDPATHS = $(call __simplify,_THEOS_TARGET_SWIFT_LDPATHS,$(dir $(shell type -p $(TARGET_SWIFT)))../lib/swift/$(_THEOS_TARGET_PLATFORM_NAME) /usr/lib/swift)
